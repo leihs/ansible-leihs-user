@@ -2,7 +2,12 @@
 - name: Create leihs user called '{{ user }}'
   user: name={{ user }} shell=/bin/bash
 
-- name: "Add authorized keys from ssh_keys/*.pub for leihs user called '{{ user }}'"
+# - name: "Add authorized keys from ssh_keys/*.pub for leihs user called '{{ user }}'"
+#   authorized_key: user={{ user }} key="{{ lookup('file', item) }}"
+#   with_fileglob:
+#     - "{{ playbook_dir }}/files/ssh_keys/*.pub"
+
+- name: "Add authorized keys from ssh_keys/* for leihs user called '{{ user }}'"
   authorized_key: user={{ user }} key="{{ lookup('file', item) }}"
-  with_fileglob:
-    - "{{ playbook_dir }}/files/ssh_keys/*.pub"
+  with_items:
+    authorized_for_deployment
