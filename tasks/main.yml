@@ -9,5 +9,4 @@
 
 - name: "Add authorized keys from ssh_keys/* for leihs user called '{{ user }}'"
   authorized_key: user={{ user }} key="{{ lookup('file', item) }}"
-  with_items:
-    authorized_for_deployment
+  with_items: "{{ authorized_for_deployment }}"
