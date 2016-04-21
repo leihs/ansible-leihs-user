@@ -10,3 +10,10 @@
 - name: "Add authorized keys from ssh_keys/* for leihs user called '{{ user }}'"
   authorized_key: user={{ user }} key="{{ lookup('file', item) }}"
   with_items: "{{ authorized_for_deployment }}"
+
+- name: Install rbenv for user '{{ user }}' using rbenv-installer
+  shell: "curl --silent https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash"
+  remote_user: "{{ user }}"
+
+- name: Install profile snippet for rbenv globally
+  copy: src=rbenv.sh dest=/etc/profile.d/rbenv.sh
